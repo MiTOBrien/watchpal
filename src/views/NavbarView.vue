@@ -17,6 +17,11 @@ const openLoginModal = (login) => {
 const openRegisterModal = (register) => {
   userStore.showRegisterModal = register
 }
+
+const handleLogout = () => {
+  userStore.logout()
+  router.push('/')
+}
 </script>
 
 <template>
@@ -29,7 +34,7 @@ const openRegisterModal = (register) => {
     <div class="navbar-end">
       <div v-if="userStore.isLoggedIn" class="navbar-item">
         Welcome, {{ name }} ({{ email }})
-        <button @click="userStore.logout(); router.push('/')" class="button is-light">Logout</button>
+        <button @click="handleLogout" class="button is-light">Logout</button>
       </div>
       <div v-else class="navbar-item">
         <button @click="openLoginModal" class="button is-primary">Login</button>
@@ -38,8 +43,11 @@ const openRegisterModal = (register) => {
     </div>
 
     <!-- Modals -->
-    <LoginModal v-if="userStore.showLoginModal" />
-    <RegisterModal v-if="userStore.showRegisterModal" />
+    <LoginModal v-if="userStore.showLoginModal" @close="userStore.showLoginModal = false" />
+    <RegisterModal
+      v-if="userStore.showRegisterModal"
+      @close="userStore.showRegisterModal = false"
+    />
   </div>
 </template>
 
