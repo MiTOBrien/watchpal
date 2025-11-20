@@ -69,55 +69,71 @@ const login = async () => {
 
 <template>
   <main>
-    <div class="login-form">
-      <form @submit.prevent="login">
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input
-            v-model="email"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter a valid email address where you can be contacted"
-            required
-            :disabled="isLoading"
-          />
-        </div>
-
-        <div class="form-group password-wrapper">
-          <label for="password">Password:</label>
-          <div class="password-field">
+    <div class="modal-overlay" @click.self="$emit('close')">
+      <div class="login-form">
+        <button class="close-btn" @click="$emit('close')">×</button>
+        <form @submit.prevent="login">
+          <div class="form-group">
+            <label for="email">Email address:</label>
             <input
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
+              v-model="email"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter a valid email address where you can be contacted"
               required
               :disabled="isLoading"
             />
-            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-              {{ showPassword ? 'Hide' : 'Show' }}
-            </button>
           </div>
-        </div>
 
-        <button type="submit" class="submit-btn" :disabled="isLoading">
-          {{ isLoading ? 'Logging in...' : 'Login' }}
-        </button>
-      </form>
+          <div class="form-group password-wrapper">
+            <label for="password">Password:</label>
+            <div class="password-field">
+              <input
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+                :disabled="isLoading"
+              />
+              <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+          </div>
 
-      <p class="forgot-password-link">
-        <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
-      </p>
-      <p class="register-link">
-        Don't have an account? <RouterLink to="/register">Create one here</RouterLink>
-      </p>
+          <button type="submit" class="submit-btn" :disabled="isLoading">
+            {{ isLoading ? 'Logging in...' : 'Login' }}
+          </button>
+        </form>
+
+        <p class="forgot-password-link">
+          <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
+        </p>
+        <p class="register-link">
+          Don't have an account? <RouterLink to="/register">Create one here</RouterLink>
+        </p>
+      </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
 main {
   max-width: 600px;
   margin: 0 auto;

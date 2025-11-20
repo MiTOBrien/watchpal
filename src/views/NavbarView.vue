@@ -2,13 +2,21 @@
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/useUserStore'
+import LoginModal from '@/components/LoginModal.vue'
+import RegisterModal from '@/components/RegisterModal.vue'
 
-const router = useRouter()
 const userStore = useUserStore()
+const router = useRouter()
 
 const name = computed(() => userStore.name)
 const email = computed(() => userStore.email)
 
+const openLoginModal = (login) => {
+  userStore.showLoginModal = login
+}
+const openRegisterModal = (register) => {
+  userStore.showRegisterModal = register
+}
 </script>
 
 <template>
@@ -17,17 +25,38 @@ const email = computed(() => userStore.email)
       <RouterLink to="/" class="navbar-item">Home</RouterLink>
       <RouterLink to="/dashboard" class="navbar-item">Dashboard</RouterLink>
     </div>
-    <div class="navbar-end" v-if="userStore.isLoggedIn">
-      <div class="navbar-item">
+
+    <div class="navbar-end">
+      <div v-if="userStore.isLoggedIn" class="navbar-item">
         Welcome, {{ name }} ({{ email }})
+        <button @click="userStore.logout(); router.push('/')" class="button is-light">Logout</button>
       </div>
-      <div class="navbar-item">
-        <button @click="userStore.logout(); router.push('/')" class="button is-light">
-          Logout
-        </button>
+      <div v-else class="navbar-item">
+        <button @click="openLoginModal" class="button is-primary">Login</button>
+        <button @click="openRegisterModal" class="button is-light">Register</button>
       </div>
     </div>
+
+    <!-- Modals -->
+    <LoginModal v-if="userStore.showLoginModal" />
+    <RegisterModal v-if="userStore.showRegisterModal" />
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background: #f0f0f0;
+}
+
+.navbar-item {
+  margin: 0 0.5rem;
+}
+
+.button {
+  margin-left: 0.5rem;
+}
+</style>

@@ -6,14 +6,11 @@ import { PASSWORD_REGEX, isValidPassword } from '@/utils/passwordRules'
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
 const email = ref('')
-const username = ref('')
-const first_name = ref('')
-const last_name = ref('')
+const name = ref('')
 const password = ref('')
 const showPassword = ref(false)
 const confirmPassword = ref('')
 const showConfirmPassword = ref(false)
-const selectedRoles = ref([])
 const acceptedTOS = ref(false)
 
 const isPasswordValid = computed(() => isValidPassword(password.value))
@@ -33,11 +30,6 @@ const register = async () => {
     return
   }
 
-  if (selectedRoles.value.length === 0) {
-    alert('Please select at least one role')
-    return
-  }
-
   if (!acceptedTOS.value) {
     alert('You must acknowledge the Terms of Service to register.')
     return
@@ -50,12 +42,9 @@ const register = async () => {
       body: JSON.stringify({
         user: {
           email: email.value,
-          username: username.value,
-          first_name: first_name.value,
-          last_name: last_name.value,
+          name: name.value,
           password: password.value,
           confirm_password: confirmPassword.value,
-          role_ids: selectedRoles.value,
           tos_accepted: acceptedTOS.value,
         },
       }),
@@ -95,37 +84,13 @@ const register = async () => {
         </div>
 
         <div class="form-group">
-          <label for="username">Username:</label>
+          <label for="name">Name:</label>
           <input
-            v-model="username"
+            v-model="name"
             type="text"
-            id="username"
-            name="username"
-            placeholder="Enter your username"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="first_name">First Name:</label>
-          <input
-            v-model="first_name"
-            type="text"
-            id="first_name"
-            name="first_name"
-            placeholder="Enter your first name"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="last_name">Last Name:</label>
-          <input
-            v-model="last_name"
-            type="text"
-            id="last_name"
-            name="last_name"
-            placeholder="Enter your last name"
+            id="name"
+            name="name"
+            placeholder="Enter your name"
             required
           />
         </div>
@@ -173,33 +138,6 @@ const register = async () => {
               {{ showConfirmPassword ? 'Hide' : 'Show' }}
             </button>
           </div>
-        </div>
-
-        <div class="form-group">
-          <fieldset class="roles-fieldset">
-            <legend>Register as:</legend>
-            <div class="roles-grid">
-              <div class="role-option">
-                <input type="checkbox" id="author" :value="2" v-model="selectedRoles" />
-                <label for="author">Author</label>
-              </div>
-
-              <div class="role-option">
-                <input type="checkbox" id="arcreader" :value="3" v-model="selectedRoles" />
-                <label for="arcreader">ARC Reader</label>
-              </div>
-
-              <div class="role-option">
-                <input type="checkbox" id="betareader" :value="4" v-model="selectedRoles" />
-                <label for="betareader">Beta Reader</label>
-              </div>
-
-              <div class="role-option">
-                <input type="checkbox" id="proofreader" :value="5" v-model="selectedRoles" />
-                <label for="proofreader">Proof Reader</label>
-              </div>
-            </div>
-          </fieldset>
         </div>
 
         <div class="form-group">
@@ -265,48 +203,6 @@ main {
   border-color: #007bff;
 }
 
-.roles-fieldset,
-.service-pricing-fieldset,
-.subscription-fieldset {
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  padding: 1rem;
-  margin: 0;
-}
-
-.roles-fieldset legend,
-.service-pricing-fieldset legend,
-.subscription-fieldset legend {
-  font-weight: 600;
-  color: #555;
-  padding: 0 0.5rem;
-}
-
-.roles-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-}
-
-.role-option {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.role-option input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  accent-color: #007bff;
-}
-
-.role-option label {
-  margin: 0;
-  font-weight: normal;
-  cursor: pointer;
-}
-
 .password-field {
   display: flex;
   align-items: center;
@@ -326,38 +222,6 @@ main {
   color: #2563eb;
   font-weight: 500;
   cursor: pointer;
-}
-
-
-/* Free Plan Acknowledgment Styles */
-.acknowledgment-wrapper {
-  margin-top: 1rem;
-  padding-top: 1rem;
-  border-top: 1px solid #c8e6c9;
-}
-
-.checkbox-wrapper {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.75rem;
-  text-align: left;
-}
-
-.checkbox-wrapper input[type='checkbox'] {
-  width: 18px;
-  height: 18px;
-  accent-color: #4caf50;
-  margin-top: 2px;
-  flex-shrink: 0;
-}
-
-.checkbox-wrapper label {
-  font-size: 0.9rem;
-  line-height: 1.4;
-  color: #2e7d32;
-  font-weight: 500;
-  cursor: pointer;
-  margin: 0;
 }
 
 .submit-btn {
