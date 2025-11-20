@@ -58,6 +58,21 @@ const userStore = useUserStore()
         <button @click="clearFilters" class="clear-filters-btn">Clear Filters</button>
       </div>
     </div>
+
+    <div class="days-column">
+      <div v-for="day in daysOfWeek" :key="day" class="day-section">
+        <h2 class="day-title">{{ day }}</h2>
+        <ul class="show-list">
+          <li
+            v-for="show in showsByDay(day)"
+            :key="show.id"
+            class="show-item"
+          >
+            <strong>{{ show.name }}</strong> — {{ show.channel }}
+          </li>
+        </ul>
+      </div>
+    </div>
   </main>
 </template>
 
