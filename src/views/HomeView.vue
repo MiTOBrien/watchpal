@@ -2,8 +2,6 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
 import NavbarView from './NavbarView.vue'
-
-const userStore = useUserStore()
 </script>
 
 <template>
