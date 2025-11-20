@@ -134,6 +134,18 @@ const login = async () => {
   z-index: 1000;
 }
 
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
 main {
   max-width: 600px;
   margin: 0 auto;

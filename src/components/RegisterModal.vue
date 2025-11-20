@@ -67,100 +67,130 @@ const register = async () => {
 
 <template>
   <main>
-    <h1>Early Draft Society</h1>
-    <h2>Building Better Books Together</h2>
-    <div class="registration-form">
-      <form @submit.prevent="register">
-        <div class="form-group">
-          <label for="email">Email address:</label>
-          <input
-            v-model="email"
-            type="email"
-            id="email"
-            name="email"
-            placeholder="Enter your email address"
-            required
-          />
-        </div>
-
-        <div class="form-group">
-          <label for="name">Name:</label>
-          <input
-            v-model="name"
-            type="text"
-            id="name"
-            name="name"
-            placeholder="Enter your name"
-            required
-          />
-        </div>
-
-        <!-- Password Field -->
-        <div class="form-group password-wrapper">
-          <p v-if="!isPasswordValid" class="validation-message">
-            Password must be at least 8 characters and include uppercase, lowercase, and a number or
-            symbol.
-          </p>
-          <label for="password">Password:</label>
-          <div class="password-field">
+    <div class="modal-overlay" @click.self="$emit('close')">
+      <div class="registration-form">
+        <button class="close-btn" @click="$emit('close')">×</button>
+        <form @submit.prevent="register">
+          <div class="form-group">
+            <label for="email">Email address:</label>
             <input
-              v-model="password"
-              :type="showPassword ? 'text' : 'password'"
-              id="password"
-              name="password"
-              placeholder="Enter your password"
+              v-model="email"
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email address"
               required
             />
-            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-              {{ showPassword ? 'Hide' : 'Show' }}
-            </button>
           </div>
-        </div>
 
-        <!-- Confirm Password Field -->
-        <div class="form-group password-wrapper">
-          <p v-if="!doPasswordsMatch" class="validation-message">Passwords do not match.</p>
-          <label for="confirmpassword">Confirm Password:</label>
-          <div class="password-field">
+          <div class="form-group">
+            <label for="name">Name:</label>
             <input
-              v-model="confirmPassword"
-              :type="showConfirmPassword ? 'text' : 'password'"
-              id="confirmpassword"
-              name="confirmpassword"
-              placeholder="Confirm your password"
+              v-model="name"
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
               required
             />
-            <button
-              type="button"
-              class="toggle-password"
-              @click="showConfirmPassword = !showConfirmPassword"
-            >
-              {{ showConfirmPassword ? 'Hide' : 'Show' }}
-            </button>
           </div>
-        </div>
 
-        <div class="form-group">
-          <label>
-            <input type="checkbox" v-model="acceptedTOS" />
-            I acknowledge and agree to the
-            <router-link to="/terms-of-service" target="_blank">Terms of Service</router-link>.
-          </label>
-        </div>
+          <!-- Password Field -->
+          <div class="form-group password-wrapper">
+            <p v-if="!isPasswordValid" class="validation-message">
+              Password must be at least 8 characters and include uppercase, lowercase, and a number
+              or symbol.
+            </p>
+            <label for="password">Password:</label>
+            <div class="password-field">
+              <input
+                v-model="password"
+                :type="showPassword ? 'text' : 'password'"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                required
+              />
+              <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+                {{ showPassword ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+          </div>
 
-        <button type="submit" class="submit-btn" :disabled="!isPasswordValid || !doPasswordsMatch">
-          Register
-        </button>
-      </form>
+          <!-- Confirm Password Field -->
+          <div class="form-group password-wrapper">
+            <p v-if="!doPasswordsMatch" class="validation-message">Passwords do not match.</p>
+            <label for="confirmpassword">Confirm Password:</label>
+            <div class="password-field">
+              <input
+                v-model="confirmPassword"
+                :type="showConfirmPassword ? 'text' : 'password'"
+                id="confirmpassword"
+                name="confirmpassword"
+                placeholder="Confirm your password"
+                required
+              />
+              <button
+                type="button"
+                class="toggle-password"
+                @click="showConfirmPassword = !showConfirmPassword"
+              >
+                {{ showConfirmPassword ? 'Hide' : 'Show' }}
+              </button>
+            </div>
+          </div>
 
-      <p class="back-link">
-        <RouterLink to="/">Back to login</RouterLink>
-      </p>
+          <div class="form-group">
+            <label>
+              <input type="checkbox" v-model="acceptedTOS" />
+              I acknowledge and agree to the
+              <router-link to="/terms-of-service" target="_blank">Terms of Service</router-link>.
+            </label>
+          </div>
+
+          <button
+            type="submit"
+            class="submit-btn"
+            :disabled="!isPasswordValid || !doPasswordsMatch"
+          >
+            Register
+          </button>
+        </form>
+
+        <p class="back-link">
+          <RouterLink to="/">Back to login</RouterLink>
+        </p>
+      </div>
     </div>
   </main>
 </template>
 
 <style scoped>
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: #333;
+}
+
 main {
   max-width: 600px;
   margin: 0 auto;
