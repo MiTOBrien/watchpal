@@ -1,0 +1,219 @@
+<script setup>
+import { ref } from 'vue'
+import { useRouter, RouterLink } from 'vue-router'
+import { useUserStore } from '@/stores/useUserStore'
+
+const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
+const email = ref('')
+const password = ref('')
+const showPassword = ref(false)
+const isLoading = ref(false)
+const router = useRouter()
+const userStore = useUserStore()
+
+const login = async () => {
+  isLoading.value = true
+
+  try {
+    const response = await fetch(`${API_BASE_URL}/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        user: {
+          email: email.value,
+          password: password.value,
+        },
+      }),
+    })
+
+    const result = await response.json()
+
+    const token = result.status?.token
+    const user = result.status?.data?.user
+
+    if (response.ok && token && user) {
+      // Combine token with user data
+      const fullUser = {
+        ...user,
+        token,
+        roles: Array.isArray(user.roles) ? user.roles : [],
+      }
+
+      // Store in Pinia and localStorage
+      userStore.setUser(fullUser)
+
+      router.push('/')
+    } else {
+      const errorMessage =
+        result.error || result.status?.message || 'Login failed. Please try again.'
+      alert(errorMessage)
+    }
+  } catch (error) {
+    console.error('Login error:', error)
+
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      alert(
+        `Cannot connect to backend at ${API_BASE_URL}. Please check if your backend server is running.`,
+      )
+    } else {
+      alert(`An error occurred during login: ${error.message}`)
+    }
+  } finally {
+    isLoading.value = false
+  }
+}
+</script>
+
+<template>
+  <main>
+    <div class="login-form">
+      <form @submit.prevent="login">
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter a valid email address where you can be contacted"
+            required
+            :disabled="isLoading"
+          />
+        </div>
+
+        <div class="form-group password-wrapper">
+          <label for="password">Password:</label>
+          <div class="password-field">
+            <input
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              required
+              :disabled="isLoading"
+            />
+            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" :disabled="isLoading">
+          {{ isLoading ? 'Logging in...' : 'Login' }}
+        </button>
+      </form>
+
+      <p class="forgot-password-link">
+        <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
+      </p>
+      <p class="register-link">
+        Don't have an account? <RouterLink to="/register">Create one here</RouterLink>
+      </p>
+    </div>
+  </main>
+</template>
+
+<style scoped>
+main {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-form {
+  background: #f9f9f9;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.form-group input:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.register-link {
+  text-align: center;
+  margin-top: 1.5rem;
+  color: #666;
+}
+
+.password-field {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.password-field input {
+  flex: 1;
+  padding-right: 4rem;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 0.5rem;
+  background: none;
+  border: none;
+  color: #2563eb;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+  main {
+    padding: 1rem;
+    max-width: 100%;
+  }
+
+  .login-form {
+    padding: 1.5rem;
+  }
+}
+</style>
