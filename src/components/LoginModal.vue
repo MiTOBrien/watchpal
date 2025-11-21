@@ -10,10 +10,10 @@ const showPassword = ref(false)
 const isLoading = ref(false)
 const router = useRouter()
 const userStore = useUserStore()
+const emit = defineEmits(['close'])
 
 const login = async () => {
   isLoading.value = true
-
   try {
     const response = await fetch(`${API_BASE_URL}/login`, {
       method: 'POST',
@@ -30,7 +30,6 @@ const login = async () => {
     })
 
     const result = await response.json()
-
     const token = result.status?.token
     const user = result.status?.data?.user
 
@@ -45,7 +44,7 @@ const login = async () => {
       // Store in Pinia and localStorage
       userStore.setUser(fullUser)
 
-      router.push('/')
+      userStore.showLoginModal = false
     } else {
       const errorMessage =
         result.error || result.status?.message || 'Login failed. Please try again.'
