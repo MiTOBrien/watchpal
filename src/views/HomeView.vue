@@ -27,19 +27,34 @@ import NavbarView from './NavbarView.vue'
         <div class="filter-group">
           <label for="role-filter">Day of week:</label>
           <select v-model="selectedRoleFilter" id="role-filter" class="filter-select">
-            <option value="all">All Types</option>
-            <option value="Arc Reader">ARC Readers</option>
-            <option value="Beta Reader">Beta Readers</option>
-            <option value="Proof Reader">Proof Readers</option>
+            <option value="all">All</option>
+            <option value="sunday">Sunday</option>
+            <option value="monday">Monday</option>
+            <option value="tuesday">Tuesday</option>
+            <option value="wednesday">Wednesday</option>
+            <option value="thursday">Thursday</option>
+            <option value="friday">Friday</option>
+            <option value="saturday">Saturday</option>
           </select>
         </div>
 
         <div class="filter-group">
           <label for="service-filter">Channel/Service:</label>
           <select v-model="selectedServiceFilter" id="service-filter" class="filter-select">
-            <option value="all">All Readers</option>
-            <option value="free">Free Readers</option>
-            <option value="paid">Paid Readers</option>
+            <option value="all">All</option>
+            <option value="amazon">Amazon Prime Video</option>
+            <option value="apple">Apple TV</option>
+            <option value="britbox">BritBox</option>
+            <option value="disney+">Disney+</option>
+            <option value="discovery+">Discovery+</option>
+            <option value="hulu">Hulu</option>
+            <option value="max">Max</option>
+            <option value="netflix">Netflix</option>
+            <option value="peacock">Peacock</option>
+            <option value="paramount+">Paramount+</option>
+            <option value="philo">Philo</option>
+            <option value="roku">Roku</option>
+            <option value="sling">Sling TV</option>
           </select>
         </div>
 
