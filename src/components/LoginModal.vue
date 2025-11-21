@@ -10,7 +10,12 @@ const showPassword = ref(false)
 const isLoading = ref(false)
 const router = useRouter()
 const userStore = useUserStore()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'open-register'])
+
+const openRegister = () => {
+  emit('close')
+  emit('open-register')
+}
 
 const login = async () => {
   isLoading.value = true
@@ -109,7 +114,8 @@ const login = async () => {
           <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
         </p>
         <p class="register-link">
-          Don't have an account? <RouterLink to="/register">Create one here</RouterLink>
+          Don't have an account?
+          <button type="button" class="link-button" @click="openRegister">Create one here</button>
         </p>
       </div>
     </div>
@@ -191,18 +197,6 @@ main {
   cursor: not-allowed;
 }
 
-.submit-btn {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
-}
-
 .register-link {
   text-align: center;
   margin-top: 1.5rem;
@@ -228,6 +222,22 @@ main {
   color: #2563eb;
   font-weight: 500;
   cursor: pointer;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 1rem;
+}
+
+.submit-btn:hover {
+  background-color: #0056b3;
 }
 
 /* Responsive design */

@@ -43,7 +43,7 @@ const handleLogout = () => {
     </div>
 
     <!-- Modals -->
-    <LoginModal v-if="userStore.showLoginModal" @close="userStore.showLoginModal = false" />
+    <LoginModal v-if="userStore.showLoginModal" @close="userStore.showLoginModal = false" @open-register="() => { userStore.showLoginModal = false; userStore.showRegisterModal = true }"/>
     <RegisterModal
       v-if="userStore.showRegisterModal"
       @close="userStore.showRegisterModal = false"

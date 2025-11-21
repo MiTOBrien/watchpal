@@ -217,9 +217,7 @@ main {
   color: #555;
 }
 
-.form-group input[type='email'],
-.form-group input[type='password'],
-.form-group input[type='text'] {
+.form-group input {
   width: 100%;
   padding: 0.75rem;
   border: 2px solid #ddd;
@@ -229,8 +227,7 @@ main {
   box-sizing: border-box;
 }
 
-.form-group input[type='email']:focus,
-.form-group input[type='password']:focus {
+.form-group input:focus {
   outline: none;
   border-color: #007bff;
 }
@@ -285,12 +282,10 @@ main {
 }
 
 @media (max-width: 480px) {
-  .roles-grid {
-    grid-template-columns: 1fr;
-  }
 
   main {
     padding: 1rem;
+    max-width: 100%;
   }
 
   .registration-form {
