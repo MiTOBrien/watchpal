@@ -12,6 +12,8 @@ export const useUserStore = defineStore('user', () => {
   const subscriptionId = ref(null)
   const isLoggedIn = ref(false)
   const disabled = ref(false)
+  const showLoginModal = ref(false)
+  const showRegisterModal = ref(false)
 
   // Actions
   function login(userData) {
@@ -24,6 +26,8 @@ export const useUserStore = defineStore('user', () => {
     subscriptionId.value = userData.subscription_id || null
     disabled.value = !!userData.disabled
     isLoggedIn.value = true
+    showLoginModal.value = false
+    showRegisterModal.value = false
 
     localStorage.setItem(
       'user',
