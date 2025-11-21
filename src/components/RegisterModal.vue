@@ -12,10 +12,16 @@ const showPassword = ref(false)
 const confirmPassword = ref('')
 const showConfirmPassword = ref(false)
 const acceptedTOS = ref(false)
-const emit = defineEmits(['close'])
 
 const isPasswordValid = computed(() => isValidPassword(password.value))
 const doPasswordsMatch = computed(() => password.value === confirmPassword.value)
+
+const emit = defineEmits(['close', 'open-login'])
+
+const openLogin = () => {
+  emit('close')
+  emit('open-login')
+}
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -157,9 +163,9 @@ const register = async () => {
             Register
           </button>
         </form>
-
-        <p class="back-link">
-          <RouterLink to="/">Back to login</RouterLink>
+        
+        <p class="login-link">
+          <button type="button" class="link-button" @click="openLogin">Back to login</button>
         </p>
       </div>
     </div>
