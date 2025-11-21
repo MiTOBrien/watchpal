@@ -12,6 +12,7 @@ const showPassword = ref(false)
 const confirmPassword = ref('')
 const showConfirmPassword = ref(false)
 const acceptedTOS = ref(false)
+const emit = defineEmits(['close'])
 
 const isPasswordValid = computed(() => isValidPassword(password.value))
 const doPasswordsMatch = computed(() => password.value === confirmPassword.value)
@@ -54,7 +55,7 @@ const register = async () => {
 
     if (response.ok) {
       alert('Registration successful! Please login.')
-      router.push('/')
+      userStore.showRegisterModal = false
     } else {
       alert(data.error || 'Registration failed')
     }
@@ -198,6 +199,7 @@ main {
 }
 
 .registration-form {
+  position: relative;
   background: #f9f9f9;
   padding: 2rem;
   border-radius: 8px;

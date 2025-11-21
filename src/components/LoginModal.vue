@@ -40,10 +40,7 @@ const login = async () => {
         token,
         roles: Array.isArray(user.roles) ? user.roles : [],
       }
-
-      // Store in Pinia and localStorage
       userStore.setUser(fullUser)
-
       userStore.showLoginModal = false
     } else {
       const errorMessage =
@@ -156,6 +153,7 @@ main {
 }
 
 .login-form {
+  position: relative;
   background: #f9f9f9;
   padding: 2rem;
   border-radius: 8px;
