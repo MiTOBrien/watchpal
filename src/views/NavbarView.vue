@@ -28,17 +28,15 @@ const handleLogout = () => {
   <div class="navbar">
     <div class="navbar-start">
       <RouterLink to="/" class="navbar-item">Home</RouterLink>
-      <RouterLink to="/dashboard" class="navbar-item">Dashboard</RouterLink>
     </div>
 
     <div class="navbar-end">
       <div v-if="userStore.isLoggedIn" class="navbar-item">
-        Welcome, {{ name }} ({{ email }})
+        Welcome, {{ name }}
         <button @click="handleLogout" class="button is-light">Logout</button>
       </div>
       <div v-else class="navbar-item">
         <button @click="openLoginModal" class="button is-primary">Login</button>
-        <button @click="openRegisterModal" class="button is-light">Register</button>
       </div>
     </div>
 
