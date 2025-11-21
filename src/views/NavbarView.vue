@@ -14,13 +14,9 @@ const email = computed(() => userStore.email)
 const openLoginModal = (login) => {
   userStore.showLoginModal = login
 }
-const openRegisterModal = (register) => {
-  userStore.showRegisterModal = register
-}
 
 const handleLogout = () => {
   userStore.logout()
-  router.push('/')
 }
 </script>
 
