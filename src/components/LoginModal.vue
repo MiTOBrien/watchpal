@@ -69,186 +69,56 @@ const login = async () => {
 </script>
 
 <template>
-  <main>
-    <div class="modal-overlay" @click.self="$emit('close')">
-      <div class="login-form">
-        <button class="close-btn" @click="$emit('close')">×</button>
-        <form @submit.prevent="login">
-          <div class="form-group">
-            <label for="email">Email address:</label>
+  <div class="modal-overlay" @click.self="$emit('close')">
+    <div class="login-form">
+      <button class="close-btn" @click="$emit('close')">×</button>
+      <form @submit.prevent="login">
+        <div class="form-group">
+          <label for="email">Email address:</label>
+          <input
+            v-model="email"
+            type="email"
+            id="email"
+            name="email"
+            placeholder="Enter a valid email address where you can be contacted"
+            required
+            :disabled="isLoading"
+          />
+        </div>
+
+        <div class="form-group password-wrapper">
+          <label for="password">Password:</label>
+          <div class="password-field">
             <input
-              v-model="email"
-              type="email"
-              id="email"
-              name="email"
-              placeholder="Enter a valid email address where you can be contacted"
+              v-model="password"
+              :type="showPassword ? 'text' : 'password'"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
               required
               :disabled="isLoading"
             />
+            <button type="button" class="toggle-password" @click="showPassword = !showPassword">
+              {{ showPassword ? 'Hide' : 'Show' }}
+            </button>
           </div>
+        </div>
 
-          <div class="form-group password-wrapper">
-            <label for="password">Password:</label>
-            <div class="password-field">
-              <input
-                v-model="password"
-                :type="showPassword ? 'text' : 'password'"
-                id="password"
-                name="password"
-                placeholder="Enter your password"
-                required
-                :disabled="isLoading"
-              />
-              <button type="button" class="toggle-password" @click="showPassword = !showPassword">
-                {{ showPassword ? 'Hide' : 'Show' }}
-              </button>
-            </div>
-          </div>
+        <button type="submit" class="submit-btn" :disabled="isLoading">
+          {{ isLoading ? 'Logging in...' : 'Login' }}
+        </button>
+      </form>
 
-          <button type="submit" class="submit-btn" :disabled="isLoading">
-            {{ isLoading ? 'Logging in...' : 'Login' }}
-          </button>
-        </form>
-
-        <p class="forgot-password-link">
-          <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
-        </p>
-        <p class="register-link">
-          Don't have an account?
-          <button type="button" class="link-button" @click="openRegister">Create one here</button>
-        </p>
-      </div>
+      <p class="forgot-password-link">
+        <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
+      </p>
+      <p class="register-link">
+        Don't have an account?
+        <button type="button" class="link-button" @click="openRegister">Create one here</button>
+      </p>
     </div>
-  </main>
+  </div>
 </template>
 
 <style scoped>
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.6);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
-}
-
-.close-btn {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  font-weight: bold;
-  cursor: pointer;
-  color: #333;
-}
-
-main {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.login-form {
-  position: relative;
-  background: #f9f9f9;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.form-group {
-  margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: 600;
-  color: #555;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.75rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-  box-sizing: border-box;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.form-group input:disabled {
-  background-color: #f5f5f5;
-  cursor: not-allowed;
-}
-
-.register-link {
-  text-align: center;
-  margin-top: 1.5rem;
-  color: #666;
-}
-
-.password-field {
-  display: flex;
-  align-items: center;
-  position: relative;
-}
-
-.password-field input {
-  flex: 1;
-  padding-right: 4rem;
-}
-
-.toggle-password {
-  position: absolute;
-  right: 0.5rem;
-  background: none;
-  border: none;
-  color: #2563eb;
-  font-weight: 500;
-  cursor: pointer;
-}
-
-.submit-btn {
-  width: 100%;
-  padding: 0.75rem;
-  border: none;
-  border-radius: 4px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 1rem;
-}
-
-.submit-btn:hover {
-  background-color: #0056b3;
-}
-
-/* Responsive design */
-@media (max-width: 480px) {
-  main {
-    padding: 1rem;
-    max-width: 100%;
-  }
-
-  .login-form {
-    padding: 1.5rem;
-  }
-}
 </style>
