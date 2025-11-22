@@ -1,5 +1,6 @@
 @import './navbar.css';
 @import './homeview.css';
+@import './modal.css';
 
 * {
   box-sizing: border-box;

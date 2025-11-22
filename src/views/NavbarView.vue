@@ -42,30 +42,29 @@ const toggleTheme = () => {
           <button @click="openLoginModal" class="button is-primary">Login</button>
         </div>
       </div>
-
-      <!-- Modals -->
-      <LoginModal
-        v-if="userStore.showLoginModal"
-        @close="userStore.showLoginModal = false"
-        @open-register="
-          () => {
-            userStore.showLoginModal = false
-            userStore.showRegisterModal = true
-          }
-        "
-      />
-      <RegisterModal
-        v-if="userStore.showRegisterModal"
-        @close="userStore.showRegisterModal = false"
-        @open-login="
-          () => {
-            userStore.showRegisterModal = false
-            userStore.showLoginModal = true
-          }
-        "
-      />
     </div>
   </div>
+
+  <LoginModal
+    v-if="userStore.showLoginModal"
+    @close="userStore.showLoginModal = false"
+    @open-register="
+      () => {
+        userStore.showLoginModal = false
+        userStore.showRegisterModal = true
+      }
+    "
+  />
+  <RegisterModal
+    v-if="userStore.showRegisterModal"
+    @close="userStore.showRegisterModal = false"
+    @open-login="
+      () => {
+        userStore.showRegisterModal = false
+        userStore.showLoginModal = true
+      }
+    "
+  />
 </template>
 
 <style scoped></style>
