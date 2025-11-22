@@ -2,6 +2,14 @@
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { streamingServices } from '@/constants/services'
+import AddShowModal from '@/components/AddShowModal.vue'
+
+const showAddModal = ref(false)
+
+const handleAddShow = (newShow) => {
+  // Save to store or backend
+  console.log('New show added:', newShow)
+}
 </script>
 
 <template>
