@@ -18,12 +18,18 @@ const openLoginModal = (login) => {
 const handleLogout = () => {
   userStore.logout()
 }
+
+const toggleTheme = () => {
+  const html = document.documentElement
+  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark'
+}
 </script>
 
 <template>
   <div class="navbar">
     <div class="navbar-start">
       <RouterLink to="/" class="navbar-item">Home</RouterLink>
+      <button @click="toggleTheme">Toggle Theme</button>
     </div>
 
     <div class="navbar-end">
@@ -37,28 +43,28 @@ const handleLogout = () => {
     </div>
 
     <!-- Modals -->
-    <LoginModal v-if="userStore.showLoginModal" @close="userStore.showLoginModal = false" @open-register="() => { userStore.showLoginModal = false; userStore.showRegisterModal = true }"/>
+    <LoginModal
+      v-if="userStore.showLoginModal"
+      @close="userStore.showLoginModal = false"
+      @open-register="
+        () => {
+          userStore.showLoginModal = false
+          userStore.showRegisterModal = true
+        }
+      "
+    />
     <RegisterModal
       v-if="userStore.showRegisterModal"
-      @close="userStore.showRegisterModal = false" @open-login="() => { userStore.showRegisterModal = false; userStore.showLoginModal = true }"
+      @close="userStore.showRegisterModal = false"
+      @open-login="
+        () => {
+          userStore.showRegisterModal = false
+          userStore.showLoginModal = true
+        }
+      "
     />
   </div>
 </template>
 
 <style scoped>
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  background: #f0f0f0;
-}
-
-.navbar-item {
-  margin: 0 0.5rem;
-}
-
-.button {
-  margin-left: 0.5rem;
-}
 </style>

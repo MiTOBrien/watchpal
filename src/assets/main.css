@@ -1,4 +1,4 @@
-/* @import './base.css'; */
+@import './navbar.css';
 
 #app {
   max-width: 1280px;
@@ -7,16 +7,54 @@
   font-weight: normal;
 }
 
-a,
-.green {
-  text-decoration: none;
-  color: hsla(160, 100%, 37%, 1);
-  transition: 0.4s;
-  padding: 3px;
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+}
+
+.login-form {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.close-btn {
+  color: var(--color-text);
+}
+
+.submit-btn {
+  background-color: var(--color-primary);
+  color: var(--color-text);
+}
+
+.submit-btn:hover {
+  background-color: var(--color-accent);
 }
 
 h1, h2 {
   text-align: center;
+}
+
+:root[data-theme="dark"] {
+  --color-bg: #1E293B;
+  --color-surface: #334155;
+  --color-text: #F1F5F9;
+  --color-muted: #94A3B8;
+  --color-primary: #06B6D4;
+  --color-accent: #8B5CF6;
+  --color-highlight: #84CC16;
+  --color-border: #475569;
+}
+
+:root[data-theme="light"] {
+  --color-bg: #F3F4F6;
+  --color-surface: #FFFFFF;
+  --color-text: #1F2937;
+  --color-muted: #6B7280;
+  --color-primary: #6366F1;
+  --color-accent: #10B981;
+  --color-highlight: #F59E0B;
+  --color-border: #D1D5DB;
 }
 
 @media (hover: hover) {

@@ -6,6 +6,7 @@ const userStore = useUserStore()
 
 onMounted(() => {
   userStore.restoreFromLocalStorage()
+  document.documentElement.dataset.theme = 'dark'
 })
 </script>
 
