@@ -151,7 +151,7 @@ const register = async () => {
             <label>
               <input type="checkbox" v-model="acceptedTOS" />
               I acknowledge and agree to the
-              <router-link to="/terms-of-service" target="_blank">Terms of Service</router-link>.
+              <router-link to="/tos" target="_blank">Terms of Service</router-link>.
             </label>
           </div>
 
