@@ -1,8 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
-import NavbarView from './NavbarView.vue'
-import FooterView from './FooterView.vue'
+import { streamingServices } from '@/constants/services'
 </script>
 
 <template>
@@ -23,8 +22,8 @@ import FooterView from './FooterView.vue'
 
         <div class="filters">
           <div class="filter-group">
-            <label for="role-filter">Day of week:</label>
-            <select v-model="selectedRoleFilter" id="role-filter" class="filter-select">
+            <label for="day-filter">Day of week:</label>
+            <select v-model="selectedDayFilter" id="day-filter" class="filter-select">
               <option value="all">All</option>
               <option value="sunday">Sunday</option>
               <option value="monday">Monday</option>
@@ -40,28 +39,8 @@ import FooterView from './FooterView.vue'
             <label for="service-filter">Channel/Service:</label>
             <select v-model="selectedServiceFilter" id="service-filter" class="filter-select">
               <option value="all">All</option>
-              <option value="amazon">Amazon Prime Video</option>
-              <option value="apple">Apple TV</option>
-              <option value="britbox">BritBox</option>
-              <option value="disney+">Disney+</option>
-              <option value="discovery+">Discovery+</option>
-              <option value="hulu">Hulu</option>
-              <option value="max">Max</option>
-              <option value="netflix">Netflix</option>
-              <option value="peacock">Peacock</option>
-              <option value="paramount+">Paramount+</option>
-              <option value="philo">Philo</option>
-              <option value="roku">Roku</option>
-              <option value="sling">Sling TV</option>
-            </select>
-          </div>
-
-          <div class="filter-group">
-            <label for="genre-filter">Genre Type:</label>
-            <select v-model="selectedGenreFilter" id="genre-filter" class="filter-select">
-              <option value="all">All Genres</option>
-              <option v-for="genre in availableGenres" :key="genre.id" :value="genre.id">
-                {{ genre.name }}
+              <option v-for="service in streamingServices" :key="service.id" :value="service.id">
+                {{ service.name }}
               </option>
             </select>
           </div>
