@@ -27,44 +27,45 @@ const toggleTheme = () => {
 
 <template>
   <div class="navbar">
-    <div class="navbar-start">
-      <RouterLink to="/" class="navbar-item">Home</RouterLink>
-      <button @click="toggleTheme">Toggle Theme</button>
-    </div>
-
-    <div class="navbar-end">
-      <div v-if="userStore.isLoggedIn" class="navbar-item">
-        Welcome, {{ name }}
-        <button @click="handleLogout" class="button is-light">Logout</button>
+    <div class="container">
+      <div class="navbar-start">
+        <RouterLink to="/" class="navbar-item">Home</RouterLink>
+        <button @click="toggleTheme">Toggle Theme</button>
       </div>
-      <div v-else class="navbar-item">
-        <button @click="openLoginModal" class="button is-primary">Login</button>
-      </div>
-    </div>
 
-    <!-- Modals -->
-    <LoginModal
-      v-if="userStore.showLoginModal"
-      @close="userStore.showLoginModal = false"
-      @open-register="
-        () => {
-          userStore.showLoginModal = false
-          userStore.showRegisterModal = true
-        }
-      "
-    />
-    <RegisterModal
-      v-if="userStore.showRegisterModal"
-      @close="userStore.showRegisterModal = false"
-      @open-login="
-        () => {
-          userStore.showRegisterModal = false
-          userStore.showLoginModal = true
-        }
-      "
-    />
+      <div class="navbar-end">
+        <div v-if="userStore.isLoggedIn" class="navbar-item">
+          Welcome, {{ name }}
+          <button @click="handleLogout" class="button is-light">Logout</button>
+        </div>
+        <div v-else class="navbar-item">
+          <button @click="openLoginModal" class="button is-primary">Login</button>
+        </div>
+      </div>
+
+      <!-- Modals -->
+      <LoginModal
+        v-if="userStore.showLoginModal"
+        @close="userStore.showLoginModal = false"
+        @open-register="
+          () => {
+            userStore.showLoginModal = false
+            userStore.showRegisterModal = true
+          }
+        "
+      />
+      <RegisterModal
+        v-if="userStore.showRegisterModal"
+        @close="userStore.showRegisterModal = false"
+        @open-login="
+          () => {
+            userStore.showRegisterModal = false
+            userStore.showLoginModal = true
+          }
+        "
+      />
+    </div>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

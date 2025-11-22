@@ -8,12 +8,8 @@ import FooterView from './FooterView.vue'
 <template>
   <div class="homeview-container">
     <main class="homeview-content">
-      <div class="navbar-container">
-        <NavbarView />
-        <h1>WatchPal</h1>
-        <h2>Your watchlist companion</h2>
-      </div>
-
+      <h1>WatchPal</h1>
+      <h2>Your watchlist companion</h2>
       <!-- Search and Filter Section -->
       <div class="search-filters">
         <div class="search-bar">
@@ -85,90 +81,7 @@ import FooterView from './FooterView.vue'
         </div>
       </div>
     </main>
-    <FooterView />
   </div>
 </template>
 
-<style scoped>
-.homeview-container {
-  max-width: 1600px;
-  margin: 0 auto;
-  padding: 1rem;
-  background-color: var(--color-surface);
-  color: var(--color-text);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.homeview-content {
-  flex: 1;
-}
-/* Search and Filters */
-.search-filters {
-  background: #f8f9fa;
-  padding: 1.5rem;
-  border-radius: 8px;
-  margin-bottom: 2rem;
-}
-
-.search-bar {
-  margin-bottom: 1rem;
-}
-
-.search-input {
-  width: 95%;
-  padding: 0.75rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-  transition: border-color 0.3s ease;
-}
-
-.search-input:focus {
-  outline: none;
-  border-color: #007bff;
-}
-
-.filters {
-  display: flex;
-  gap: 1rem;
-  align-items: end;
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
-}
-
-.filter-group label {
-  font-weight: 600;
-  color: #555;
-  font-size: 0.9rem;
-}
-
-.filter-select {
-  padding: 0.5rem;
-  border: 2px solid #ddd;
-  border-radius: 4px;
-  font-size: 0.9rem;
-  min-width: 150px;
-}
-
-.clear-filters-btn {
-  padding: 0.5rem 1rem;
-  background: #6c757d;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-  transition: background-color 0.3s ease;
-}
-
-.clear-filters-btn:hover {
-  background: #545b62;
-}
-</style>
+<style scoped></style>
