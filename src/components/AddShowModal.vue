@@ -3,35 +3,34 @@ import { ref, watch } from 'vue'
 import { streamingServices } from '@/constants/services.js'
 
 const props = defineProps({
-  preselectedDay: { type: String, default: null }
+  preselectedDay: { type: String, default: null },
 })
 const emit = defineEmits(['close', 'add-show'])
 
 const showName = ref('')
+const airDay = ref('sunday')
+const airTime = ref('')
 const channelName = ref('')
 const channelNumber = ref('')
 const availableOn = ref('sunday')
 
-const daysOfWeek = [
-  'sunday',
-  'monday',
-  'tuesday',
-  'wednesday',
-  'thursday',
-  'friday',
-  'saturday'
-]
+const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
-watch(() => props.preselectedDay, (newDay) => {
-  if (newDay) availableOn.value = newDay
-})
+watch(
+  () => props.preselectedDay,
+  (newDay) => {
+    if (newDay) availableOn.value = newDay
+  },
+)
 
 const submitForm = () => {
   emit('add-show', {
     show_name: showName.value,
+    air_day: airDay.value,
+    air_time: airTime.value,
     channel_name: channelName.value,
     channel_number: channelNumber.value,
-    available_on: availableOn.value
+    available_on: availableOn.value,
   })
   emit('close')
 }
@@ -47,6 +46,20 @@ const submitForm = () => {
         <div class="form-group">
           <label for="showName">Show Name:</label>
           <input v-model="showName" id="showName" type="text" required />
+        </div>
+
+        <div class="form-group">
+          <label for="airDay">Air Day:</label>
+          <select v-model="airDay" id="airDay">
+            <option v-for="day in daysOfWeek" :key="day" :value="day">
+              {{ day.charAt(0).toUpperCase() + day.slice(1) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label for="airTime">Air Time:</label>
+          <input v-model="airTime" id="airTime" type="text" placeholder="Optional" />
         </div>
 
         <div class="form-group">

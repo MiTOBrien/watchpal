@@ -4,6 +4,9 @@ import { useUserStore } from '@/stores/useUserStore'
 import { streamingServices } from '@/constants/services'
 import AddShowModal from '@/components/AddShowModal.vue'
 
+const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
+const userStore = useUserStore()
+
 const showAddModal = ref(false)
 
 const selectedDay = ref(null)
@@ -11,7 +14,10 @@ const selectedDay = ref(null)
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const showsByDay = (day) => {
-  return []
+  if (!userStore.shows) return []
+  return userStore.shows.filter(
+    show => show.available_on?.toLowerCase() === day.toLowerCase()
+  )
 }
 
 const openAddShowModal = (day) => {
