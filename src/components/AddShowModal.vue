@@ -1,13 +1,16 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { streamingServices } from '@/constants/services.js'
 
+const props = defineProps({
+  preselectedDay: { type: String, default: null }
+})
 const emit = defineEmits(['close', 'add-show'])
 
 const showName = ref('')
 const channelName = ref('')
 const channelNumber = ref('')
-const availableOn = ref('sunday') // default to Sunday
+const availableOn = ref('sunday')
 
 const daysOfWeek = [
   'sunday',
@@ -19,8 +22,11 @@ const daysOfWeek = [
   'saturday'
 ]
 
+watch(() => props.preselectedDay, (newDay) => {
+  if (newDay) availableOn.value = newDay
+})
+
 const submitForm = () => {
-  // Emit the new show data back to parent
   emit('add-show', {
     show_name: showName.value,
     channel_name: channelName.value,
