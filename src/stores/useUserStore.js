@@ -14,6 +14,7 @@ export const useUserStore = defineStore('user', () => {
   const disabled = ref(false)
   const showLoginModal = ref(false)
   const showRegisterModal = ref(false)
+  const shows = ref([])
 
   // Actions
   function login(userData) {
@@ -28,6 +29,7 @@ export const useUserStore = defineStore('user', () => {
     isLoggedIn.value = true
     showLoginModal.value = false
     showRegisterModal.value = false
+    shows.value = userData.shows || []
 
     localStorage.setItem(
       'user',
@@ -54,6 +56,7 @@ export const useUserStore = defineStore('user', () => {
     subscriptionId.value = null
     disabled.value = false
     isLoggedIn.value = false
+    shows.value = []
 
     localStorage.removeItem('user')
   }
@@ -63,6 +66,34 @@ export const useUserStore = defineStore('user', () => {
     if (stored) {
       const userData = JSON.parse(stored)
       login(userData)
+    }
+  }
+
+  function setShows(showList) {
+    shows.value = showList || []
+  }
+
+  function addShow(newShow) {
+    shows.value.push(newShow)
+  }
+
+  async function fetchShows() {
+    if (!token.value) return
+    try {
+      const response = await fetch(`${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/shows`, {
+        headers: {
+          Authorization: `Bearer ${token.value}`,
+          Accept: 'application/json',
+        },
+      })
+      const result = await response.json()
+      if (response.ok) {
+        setShows(result.data)
+      } else {
+        console.error('Failed to fetch shows:', result.error || result.message)
+      }
+    } catch (error) {
+      console.error('Error fetching shows:', error)
     }
   }
 
@@ -77,11 +108,15 @@ export const useUserStore = defineStore('user', () => {
     subscriptionId,
     isLoggedIn,
     disabled,
+    shows,
 
     // Actions
     login,
     setUser,
     logout,
     restoreFromLocalStorage,
+    setShows,
+    addShow,
+    fetchShows,
   }
 })
