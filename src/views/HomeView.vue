@@ -158,6 +158,7 @@ const filteredShows = computed(() => {
               <span>Air Day</span>
               <span>Air Time</span>
               <span>Channel #</span>
+              <span>Actions</span>
             </li>
             <li v-if="showsByDay(day).length === 0" class="show-item empty">
               No shows yet — add one!
@@ -169,6 +170,10 @@ const filteredShows = computed(() => {
               <span class="show-air">{{ show.air_day || 'Not Specified' }}</span>
               <span class="show-time">{{ show.air_time || 'Not Specified' }}</span>
               <span class="show-number">{{ show.channel_number || 'Not Specified' }}</span>
+                <span class="show-actions">
+    <button @click="openEditShowModal(show)" class="icon-btn">✏️</button>
+    <button @click="deleteShow(show.id)" class="icon-btn">🗑️</button>
+  </span>
             </li>
           </ul>
         </div>
@@ -203,7 +208,7 @@ const filteredShows = computed(() => {
 
 .show-item {
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(6, 1fr) auto;
   gap: 0.5rem;
   padding: 0.25rem 0;
 }
