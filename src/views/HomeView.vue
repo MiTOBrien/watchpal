@@ -1,11 +1,14 @@
 <script setup>
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { streamingServices } from '@/constants/services'
 import AddShowModal from '@/components/AddShowModal.vue'
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
 const userStore = useUserStore()
+const searchQuery = ref('')
+const selectedDayFilter = ref('all')
+const selectedServiceFilter = ref('all')
 
 const showAddModal = ref(false)
 
@@ -72,6 +75,30 @@ const handleAddShow = async (newShow) => {
     }
   }
 }
+
+const clearFilters = () => {
+  searchQuery.value = ''
+  selectedDayFilter.value = 'all'
+  selectedServiceFilter.value = 'all'
+}
+
+const filteredShows = computed(() => {
+  return userStore.shows.filter((show) => {
+    const matchesSearch =
+      !searchQuery.value ||
+      show.show_name?.toLowerCase().includes(searchQuery.value.toLowerCase())
+
+    const matchesDay =
+      selectedDayFilter.value === 'all' ||
+      (show.available_on || show.air_day)?.toLowerCase() === selectedDayFilter.value
+
+    const matchesService =
+      selectedServiceFilter.value === 'all' ||
+      show.channel_name === selectedServiceFilter.value
+
+    return matchesSearch && matchesDay && matchesService
+  })
+})
 </script>
 
 <template>
@@ -109,7 +136,7 @@ const handleAddShow = async (newShow) => {
             <label for="service-filter">Channel/Service:</label>
             <select v-model="selectedServiceFilter" id="service-filter" class="filter-select">
               <option value="all">All</option>
-              <option v-for="service in streamingServices" :key="service.id" :value="service.id">
+              <option v-for="service in streamingServices" :key="service.id" :value="service.name">
                 {{ service.name }}
               </option>
             </select>
@@ -130,7 +157,9 @@ const handleAddShow = async (newShow) => {
               No shows yet — add one!
             </li>
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
-              <strong>{{ show.show_name }}</strong> — {{ show.channel_name }}
+              <strong>{{ show.show_name }}</strong> — {{ show.channel_name }} -
+              {{ show.available_on }} - {{ show.channel_number || 'Channel TBA' }} -
+              {{ show.air_time || 'Time TBA' }}
             </li>
           </ul>
         </div>
