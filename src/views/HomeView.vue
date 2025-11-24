@@ -14,9 +14,8 @@ const selectedDay = ref(null)
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const showsByDay = (day) => {
-  if (!userStore.shows) return []
   return userStore.shows.filter(
-    show => show.available_on?.toLowerCase() === day.toLowerCase()
+    (show) => (show.available_on || show.air_day)?.toLowerCase() === day.toLowerCase(),
   )
 }
 
@@ -26,14 +25,13 @@ const openAddShowModal = (day) => {
 }
 
 const handleAddShow = async (newShow) => {
-  console.log('New show added:', newShow)
   try {
     const response = await fetch(`${API_BASE_URL}/api/v1/shows`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Accept: 'application/json',
-        Authorization: `Bearer ${userStore.user?.token}`
+        Authorization: `Bearer ${userStore.user?.token}`,
       },
       body: JSON.stringify({
         show: {
@@ -42,24 +40,24 @@ const handleAddShow = async (newShow) => {
           air_time: newShow.air_time,
           channel_name: newShow.channel_name,
           channel_number: newShow.channel_number,
-          available_on: newShow.available_on
-        }
-      })
+          available_on: newShow.available_on,
+        },
+      }),
     })
 
     const result = await response.json()
 
     if (response.ok) {
       // Option 1: push into local store immediately
-      userStore.shows.push(result.data)
+      const newShow = result.data?.attributes
+      userStore.addShow(newShow)
 
       // Option 2: or re‑fetch shows from backend
       // await userStore.fetchShows()
 
       alert('Show added successfully!')
     } else {
-      const errorMessage =
-        result.error || result.message || 'Adding show failed. Please try again.'
+      const errorMessage = result.error || result.message || 'Adding show failed. Please try again.'
       alert(errorMessage)
     }
   } catch (error) {
@@ -67,7 +65,7 @@ const handleAddShow = async (newShow) => {
 
     if (error.name === 'TypeError' && error.message.includes('fetch')) {
       alert(
-        `Cannot connect to backend at ${API_BASE_URL}. Please check if your backend server is running.`
+        `Cannot connect to backend at ${API_BASE_URL}. Please check if your backend server is running.`,
       )
     } else {
       alert(`An error occurred adding show: ${error.message}`)

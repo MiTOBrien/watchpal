@@ -10,6 +10,7 @@ export const streamingServices = [
   { id: 'fox', name: 'Fox' },
   { id: 'hbo', name: 'HBO' },
   { id: 'hulu', name: 'Hulu' },
+  { id: 'lifetime', name: 'Lifetime' },
   { id: 'max', name: 'Max' },
   { id: 'nbc', name: 'NBC' },
   { id: 'netflix', name: 'Netflix' },
