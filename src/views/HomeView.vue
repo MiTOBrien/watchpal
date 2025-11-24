@@ -38,6 +38,8 @@ const handleAddShow = async (newShow) => {
       body: JSON.stringify({
         show: {
           show_name: newShow.show_name,
+          air_day: newShow.air_day,
+          air_time: newShow.air_time,
           channel_name: newShow.channel_name,
           channel_number: newShow.channel_number,
           available_on: newShow.available_on
