@@ -146,18 +146,29 @@ const filteredShows = computed(() => {
 
       <div class="days-column">
         <div v-for="day in daysOfWeek" :key="day" class="day-section">
-          <h2 class="day-title">
+          <h2 class="day-title" :class="{ empty: showsByDay(day).length === 0 }">
             {{ day }}
             <button @click="openAddShowModal(day)" class="add-show-btn">+</button>
           </h2>
           <ul class="show-list">
+            <li v-if="showsByDay(day).length > 0" class="show-item header">
+              <span>Show</span>
+              <span>Channel</span>
+              <span>Watch Day</span>
+              <span>Air Day</span>
+              <span>Air Time</span>
+              <span>Channel #</span>
+            </li>
             <li v-if="showsByDay(day).length === 0" class="show-item empty">
               No shows yet — add one!
             </li>
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
-              <strong>{{ show.show_name }}</strong> — {{ show.channel_name }} -
-              {{ show.available_on }} - {{ show.channel_number || 'Channel TBA' }} -
-              {{ show.air_time || 'Time TBA' }}
+              <span class="show-name">{{ show.show_name }}</span>
+              <span class="show-channel">{{ show.channel_name }}</span>
+              <span class="show-day">{{ show.available_on }}</span>
+              <span class="show-air">{{ show.air_day || 'Not Specified' }}</span>
+              <span class="show-time">{{ show.air_time || 'Not Specified' }}</span>
+              <span class="show-number">{{ show.channel_number || 'Not Specified' }}</span>
             </li>
           </ul>
         </div>
@@ -185,6 +196,34 @@ const filteredShows = computed(() => {
 }
 
 .show-item.empty {
+  grid-template-columns: 1fr;
+  color: var(--color-muted);
+  font-style: italic;
+}
+
+.show-item {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.5rem;
+  padding: 0.25rem 0;
+}
+
+.show-item span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.show-item.header {
+  font-weight: bold;
+  border-bottom: 2px solid var(--color-muted); /* underline effect */
+  padding-bottom: 0.25rem;
+}
+
+.show-list {
+  margin-left: 1rem;
+}
+
+.day-title.empty {
   color: var(--color-muted);
   font-style: italic;
 }
