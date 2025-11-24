@@ -17,7 +17,7 @@ export const useUserStore = defineStore('user', () => {
   const shows = ref([])
 
   // Actions
-  function login(userData) {
+  async function login(userData) {
     token.value = userData.token
     user.value = userData
     id.value = userData.id
@@ -37,6 +37,8 @@ export const useUserStore = defineStore('user', () => {
         ...userData,
       }),
     )
+
+    await fetchShows()
   }
 
   function setUser(userData) {
@@ -66,6 +68,7 @@ export const useUserStore = defineStore('user', () => {
     if (stored) {
       const userData = JSON.parse(stored)
       login(userData)
+      fetchShows()
     }
   }
 
@@ -88,7 +91,8 @@ export const useUserStore = defineStore('user', () => {
       })
       const result = await response.json()
       if (response.ok) {
-        setShows(result.data)
+        const showList = result.data.map((item) => item.attributes)
+        setShows(showList)
       } else {
         console.error('Failed to fetch shows:', result.error || result.message)
       }
