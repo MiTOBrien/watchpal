@@ -17,7 +17,7 @@ const selectedDay = ref(null)
 const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
 
 const showsByDay = (day) => {
-  return userStore.shows.filter(
+  return filteredShows.value.filter(
     (show) => (show.available_on || show.air_day)?.toLowerCase() === day.toLowerCase(),
   )
 }
@@ -85,16 +85,14 @@ const clearFilters = () => {
 const filteredShows = computed(() => {
   return userStore.shows.filter((show) => {
     const matchesSearch =
-      !searchQuery.value ||
-      show.show_name?.toLowerCase().includes(searchQuery.value.toLowerCase())
+      !searchQuery.value || show.show_name?.toLowerCase().includes(searchQuery.value.toLowerCase())
 
     const matchesDay =
       selectedDayFilter.value === 'all' ||
       (show.available_on || show.air_day)?.toLowerCase() === selectedDayFilter.value
 
     const matchesService =
-      selectedServiceFilter.value === 'all' ||
-      show.channel_name === selectedServiceFilter.value
+      selectedServiceFilter.value === 'all' || show.channel_name === selectedServiceFilter.value
 
     return matchesSearch && matchesDay && matchesService
   })
