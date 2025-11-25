@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { streamingServices } from '@/constants/services'
-import AddShowModal from '@/components/AddShowModal.vue'
+import showModal from '@/components/showModal.vue'
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
 const userStore = useUserStore()
@@ -11,6 +11,23 @@ const selectedDayFilter = ref('all')
 const selectedServiceFilter = ref('all')
 
 const showAddModal = ref(false)
+const showEditModal = ref(false)
+const selectedShow = ref(null)
+
+function openEditShowModal(show) {
+  selectedShow.value = show
+  showEditModal.value = true
+}
+
+async function handleUpdateShow(updatedData) {
+  const success = await userStore.updateShow(selectedShow.value.id, updatedData)
+  if (success) {
+    alert('Show updated successfully!')
+    showEditModal.value = false
+  } else {
+    alert('Failed to update show.')
+  }
+}
 
 const selectedDay = ref(null)
 
@@ -90,7 +107,8 @@ const deleteShow = async (showId) => {
       alert('Show deleted successfully!')
     } else {
       const result = await response.json()
-      const errorMessage = result.error || result.message || 'Deleting show failed. Please try again.'
+      const errorMessage =
+        result.error || result.message || 'Deleting show failed. Please try again.'
       alert(errorMessage)
     }
   } catch (error) {
@@ -193,20 +211,29 @@ const filteredShows = computed(() => {
               <span class="show-air">{{ show.air_day || 'Not Specified' }}</span>
               <span class="show-time">{{ show.air_time || 'Not Specified' }}</span>
               <span class="show-number">{{ show.channel_number || 'Not Specified' }}</span>
-                <span class="show-actions">
-    <button @click="openEditShowModal(show)" class="icon-btn">✏️</button>
-    <button @click="deleteShow(show.id)" class="icon-btn">🗑️</button>
-  </span>
+              <span class="show-actions">
+                <button @click="openEditShowModal(show)" class="icon-btn">✏️</button>
+                <button @click="deleteShow(show.id)" class="icon-btn">🗑️</button>
+              </span>
             </li>
           </ul>
         </div>
       </div>
     </main>
-    <AddShowModal
+    <showModal
       v-if="showAddModal"
+      mode="add"
       @close="showAddModal = false"
       @add-show="handleAddShow"
       :preselected-day="selectedDay"
+    />
+
+    <showModal
+      v-if="showEditModal"
+      mode="edit"
+      :show="selectedShow"
+      @close="showEditModal = false"
+      @update-show="handleUpdateShow"
     />
   </div>
 </template>

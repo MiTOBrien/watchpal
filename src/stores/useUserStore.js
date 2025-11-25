@@ -101,6 +101,38 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  async function updateShow(showId, updatedData) {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_APP_API_BASE_URL}/api/v1/shows/${showId}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+            Authorization: `Bearer ${token.value}`,
+          },
+          body: JSON.stringify({ show: updatedData }),
+        },
+      )
+
+      const result = await response.json()
+      if (response.ok) {
+        const updatedShow = result.data?.attributes
+        shows.value = shows.value.map((show) =>
+          show.id === showId ? { ...show, ...updatedShow } : show,
+        )
+        return true
+      } else {
+        console.error('Update failed:', result.errors || result.message)
+        return false
+      }
+    } catch (error) {
+      console.error('Error updating show:', error)
+      return false
+    }
+  }
+
   function removeShow(showId) {
     shows.value = shows.value.filter((show) => show.id !== showId)
   }
@@ -127,5 +159,6 @@ export const useUserStore = defineStore('user', () => {
     addShow,
     fetchShows,
     removeShow,
+    updateShow,
   }
 })
