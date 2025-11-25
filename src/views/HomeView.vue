@@ -76,6 +76,29 @@ const handleAddShow = async (newShow) => {
   }
 }
 
+const deleteShow = async (showId) => {
+  try {
+    const response = await fetch(`${API_BASE_URL}/api/v1/shows/${showId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${userStore.user?.token}`,
+      },
+    })
+
+    if (response.ok) {
+      userStore.removeShow(showId)
+      alert('Show deleted successfully!')
+    } else {
+      const result = await response.json()
+      const errorMessage = result.error || result.message || 'Deleting show failed. Please try again.'
+      alert(errorMessage)
+    }
+  } catch (error) {
+    console.error('Delete show error:', error)
+    alert(`An error occurred deleting show: ${error.message}`)
+  }
+}
+
 const clearFilters = () => {
   searchQuery.value = ''
   selectedDayFilter.value = 'all'

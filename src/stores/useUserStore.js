@@ -101,6 +101,10 @@ export const useUserStore = defineStore('user', () => {
     }
   }
 
+  function removeShow(showId) {
+    shows.value = shows.value.filter((show) => show.id !== showId)
+  }
+
   return {
     // State
     user,
@@ -122,5 +126,6 @@ export const useUserStore = defineStore('user', () => {
     setShows,
     addShow,
     fetchShows,
+    removeShow,
   }
 })
