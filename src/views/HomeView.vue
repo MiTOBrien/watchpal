@@ -31,7 +31,7 @@ async function handleUpdateShow(updatedData) {
 
 const selectedDay = ref(null)
 
-const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
+const daysOfWeek = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
 
 const showsByDay = (day) => {
   return filteredShows.value.filter(
@@ -42,6 +42,11 @@ const showsByDay = (day) => {
 const openAddShowModal = (day) => {
   selectedDay.value = day.toLowerCase()
   showAddModal.value = true
+}
+
+function capitalize(value) {
+  if (!value) return ''
+  return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
 const handleAddShow = async (newShow) => {
@@ -188,7 +193,7 @@ const filteredShows = computed(() => {
       <div class="days-column">
         <div v-for="day in daysOfWeek" :key="day" class="day-section">
           <h2 class="day-title" :class="{ empty: showsByDay(day).length === 0 }">
-            {{ day }}
+            {{ capitalize(day) }}
             <button @click="openAddShowModal(day)" class="add-show-btn">+</button>
           </h2>
           <ul class="show-list">
@@ -207,8 +212,8 @@ const filteredShows = computed(() => {
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
               <span class="show-name">{{ show.show_name }}</span>
               <span class="show-channel">{{ show.channel_name }}</span>
-              <span class="show-day">{{ show.available_on }}</span>
-              <span class="show-air">{{ show.air_day || 'Not Specified' }}</span>
+              <span class="show-day">{{ capitalize(show.available_on) }}</span>
+              <span class="show-air">{{ capitalize(show.air_day) || 'Not Specified' }}</span>
               <span class="show-time">{{ show.air_time || 'Not Specified' }}</span>
               <span class="show-number">{{ show.channel_number || 'Not Specified' }}</span>
               <span class="show-actions">
