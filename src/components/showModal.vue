@@ -46,12 +46,12 @@ function handleSubmit() {
       <h2>{{ mode === 'add' ? 'Add Show' : 'Edit Show' }}</h2>
 
       <div class="form-group">
-        <label>Show Name</label>
+        <label class="modal-text">Show Name</label>
         <input v-model="form.show_name" />
       </div>
 
       <div class="form-group">
-        <label>Channel/Service</label>
+        <label class="modal-text">Channel/Service</label>
         <select v-model="form.channel_name">
           <option value="">Select Channel</option>
           <option v-for="service in streamingServices" :key="service.id" :value="service.name">
@@ -61,12 +61,12 @@ function handleSubmit() {
       </div>
 
       <div class="form-group">
-        <label>Channel Number</label>
+        <label class="modal-text">Channel Number</label>
         <input v-model="form.channel_number" />
       </div>
 
       <div class="form-group">
-        <label>Available Day</label>
+        <label class="modal-text">Available Day</label>
         <select v-model="form.available_on">
           <option value="">Select Day</option>
           <option value="sunday">Sunday</option>
@@ -80,7 +80,7 @@ function handleSubmit() {
       </div>
 
       <div class="form-group">
-        <label>Air Day</label>
+        <label class="modal-text">Air Day</label>
         <select v-model="form.air_day">
           <option value="">Select Day</option>
           <option value="sunday">Sunday</option>
@@ -94,7 +94,7 @@ function handleSubmit() {
       </div>
 
       <div class="form-group">
-        <label>Air Time</label>
+        <label class="modal-text">Air Time</label>
         <input v-model="form.air_time" type="time" />
       </div>
 
