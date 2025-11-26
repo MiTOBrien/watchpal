@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/stores/useUserStore'
 import LoginModal from '@/components/LoginModal.vue'
@@ -9,7 +9,6 @@ const userStore = useUserStore()
 const router = useRouter()
 
 const name = computed(() => userStore.name)
-const email = computed(() => userStore.email)
 
 const openLoginModal = (login) => {
   userStore.showLoginModal = login
@@ -19,9 +18,16 @@ const handleLogout = () => {
   userStore.logout()
 }
 
+const currentTheme = ref('dark') // default to dark
+
+const themeLabel = computed(() =>
+  currentTheme.value === 'dark' ? 'Light Theme' : 'Dark Theme'
+)
+
 const toggleTheme = () => {
   const html = document.documentElement
-  html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark'
+  currentTheme.value = currentTheme.value === 'dark' ? 'light' : 'dark'
+  html.dataset.theme = currentTheme.value
 }
 </script>
 
@@ -30,7 +36,7 @@ const toggleTheme = () => {
     <div class="container">
       <div class="navbar-start">
         <RouterLink to="/" class="navbar-item">Home</RouterLink>
-        <button @click="toggleTheme">Toggle Theme</button>
+        <button @click="toggleTheme">{{ themeLabel }}</button>
       </div>
 
       <div class="navbar-end">
