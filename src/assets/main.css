@@ -22,6 +22,15 @@ main {
   padding-top: 60px;
 }
 
+h1, h2 {
+  text-align: center;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+}
+
 .container {
   max-width: 1200px;
   margin: 0 auto;
@@ -47,9 +56,6 @@ main {
   background-color: var(--color-accent);
 }
 
-h1, h2 {
-  text-align: center;
-}
 
 :root[data-theme="dark"] {
   --color-bg: #1E293B;

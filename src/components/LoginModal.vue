@@ -74,7 +74,7 @@ const login = async () => {
       <button class="close-btn" @click="$emit('close')">×</button>
       <form @submit.prevent="login">
         <div class="form-group">
-          <label for="email">Email address:</label>
+          <label class="modal-text" for="email">Email address:</label>
           <input
             v-model="email"
             type="email"
@@ -87,7 +87,7 @@ const login = async () => {
         </div>
 
         <div class="form-group password-wrapper">
-          <label for="password">Password:</label>
+          <label class="modal-text" for="password">Password:</label>
           <div class="password-field">
             <input
               v-model="password"

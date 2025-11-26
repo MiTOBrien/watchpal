@@ -78,7 +78,7 @@ const register = async () => {
       <button class="close-btn" @click="$emit('close')">×</button>
       <form @submit.prevent="register">
         <div class="form-group">
-          <label for="email">Email address:</label>
+          <label class="modal-text" for="email">Email address:</label>
           <input
             v-model="email"
             type="email"
@@ -90,7 +90,7 @@ const register = async () => {
         </div>
 
         <div class="form-group">
-          <label for="name">Name:</label>
+          <label class="modal-text" for="name">Name:</label>
           <input
             v-model="name"
             type="text"
@@ -107,7 +107,7 @@ const register = async () => {
             Password must be at least 8 characters and include uppercase, lowercase, and a number or
             symbol.
           </p>
-          <label for="password">Password:</label>
+          <label class="modal-text" for="password">Password:</label>
           <div class="password-field">
             <input
               v-model="password"
@@ -126,7 +126,7 @@ const register = async () => {
         <!-- Confirm Password Field -->
         <div class="form-group password-wrapper">
           <p v-if="!doPasswordsMatch" class="validation-message">Passwords do not match.</p>
-          <label for="confirmpassword">Confirm Password:</label>
+          <label class="modal-text" for="confirmpassword">Confirm Password:</label>
           <div class="password-field">
             <input
               v-model="confirmPassword"
@@ -147,7 +147,7 @@ const register = async () => {
         </div>
 
         <div class="form-group">
-          <label>
+          <label class="modal-text">
             <input type="checkbox" v-model="acceptedTOS" />
             I acknowledge and agree to the
             <router-link to="/tos" target="_blank">Terms of Service</router-link>.

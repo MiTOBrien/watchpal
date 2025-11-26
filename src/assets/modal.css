@@ -67,6 +67,10 @@
   cursor: not-allowed;
 }
 
+label.modal-text {
+  color: var(--color-muted);
+}
+
 .password-field {
   display: flex;
   align-items: center;
