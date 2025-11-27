@@ -20,32 +20,36 @@ const handleLogout = () => {
 
 const currentTheme = ref('dark') // default to dark
 
-const themeLabel = computed(() =>
-  currentTheme.value === 'dark' ? 'Light Theme' : 'Dark Theme'
-)
+const themeLabel = computed(() => (currentTheme.value === 'dark' ? 'Light Theme' : 'Dark Theme'))
 
 const toggleTheme = () => {
   const html = document.documentElement
   currentTheme.value = currentTheme.value === 'dark' ? 'light' : 'dark'
   html.dataset.theme = currentTheme.value
 }
+
+const themeIcon = computed(() =>
+  currentTheme.value === 'dark' ? '/watchpal-dark.png' : '/watchpal-light.png'
+)
 </script>
 
 <template>
   <div class="navbar">
     <div class="container">
       <div class="navbar-start">
-        <RouterLink to="/" class="navbar-item">Home</RouterLink>
-        <button @click="toggleTheme">{{ themeLabel }}</button>
+        <RouterLink to="/" class="navbar-item"
+          ><img :src="themeIcon" alt="WatchPal Home" class="watchpal-icon"
+        /></RouterLink>
+        <button class="nav-button" @click="toggleTheme">{{ themeLabel }}</button>
       </div>
 
       <div class="navbar-end">
         <div v-if="userStore.isLoggedIn" class="navbar-item">
           Welcome, {{ name }}
-          <button @click="handleLogout" class="button is-light">Logout</button>
+          <button @click="handleLogout" class="button nav-button is-light">Logout</button>
         </div>
         <div v-else class="navbar-item">
-          <button @click="openLoginModal" class="button is-primary">Login</button>
+          <button @click="openLoginModal" class="button nav-button is-primary">Login</button>
         </div>
       </div>
     </div>
@@ -73,4 +77,24 @@ const toggleTheme = () => {
   />
 </template>
 
-<style scoped></style>
+<style scoped>
+.nav-button {
+  background: var(--color-primary);
+  border-radius: 999px;
+  box-sizing: border-box;
+  color: var(--color-text);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 24px;
+  opacity: 1;
+  outline: 0 solid transparent;
+  padding: 8px 18px;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  width: fit-content;
+  word-break: break-word;
+  border: 0;
+}
+</style>
