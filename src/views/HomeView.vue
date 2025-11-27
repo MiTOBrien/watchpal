@@ -149,7 +149,7 @@ const filteredShows = computed(() => {
   <div class="homeview-container">
     <main class="homeview-content">
       <h1>WatchPal</h1>
-      <h2>Your watchlist companion</h2>
+      <h2>Your Ultimate Watchlist Companion</h2>
       <!-- Search and Filter Section -->
       <div class="search-filters">
         <div class="search-bar">
