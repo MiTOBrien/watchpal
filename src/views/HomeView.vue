@@ -9,6 +9,7 @@ const userStore = useUserStore()
 const searchQuery = ref('')
 const selectedDayFilter = ref('all')
 const selectedServiceFilter = ref('all')
+const showColumnDropdown = ref(false)
 
 const showAddModal = ref(false)
 const showEditModal = ref(false)
@@ -44,10 +45,36 @@ const openAddShowModal = (day) => {
   showAddModal.value = true
 }
 
+function formatValue(col, value) {
+  if (!value) return 'Not Specified'
+  if (['available_on', 'air_day'].includes(col)) {
+    return capitalize(value)
+  }
+  return value
+}
+
 function capitalize(value) {
   if (!value) return ''
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
+
+const visibleColumns = ref([
+  'show_name',
+  'channel_name',
+  'available_on',
+  'air_day',
+  'air_time',
+  'channel_number',
+])
+
+const allColumns = [
+  { key: 'show_name', label: 'Show' },
+  { key: 'channel_name', label: 'Channel' },
+  { key: 'available_on', label: 'Watch Day' },
+  { key: 'air_day', label: 'Air Day' },
+  { key: 'air_time', label: 'Air Time' },
+  { key: 'channel_number', label: 'Channel #' },
+]
 
 const handleAddShow = async (newShow) => {
   try {
@@ -186,6 +213,21 @@ const filteredShows = computed(() => {
             </select>
           </div>
 
+          <div class="filter-group">
+            <label>Visible Columns:</label>
+            <div class="dropdown">
+              <button @click="showColumnDropdown = !showColumnDropdown" class="dropdown-btn">
+                Choose Columns ▾
+              </button>
+              <div v-if="showColumnDropdown" class="dropdown-menu">
+                <label v-for="col in allColumns" :key="col.key" class="dropdown-item">
+                  <input type="checkbox" v-model="visibleColumns" :value="col.key" />
+                  {{ col.label }}
+                </label>
+              </div>
+            </div>
+          </div>
+
           <button @click="clearFilters" class="clear-filters-btn">Clear Filters</button>
         </div>
       </div>
@@ -198,24 +240,18 @@ const filteredShows = computed(() => {
           </h2>
           <ul class="show-list">
             <li v-if="showsByDay(day).length > 0" class="show-item header">
-              <span>Show</span>
-              <span>Channel</span>
-              <span>Watch Day</span>
-              <span>Air Day</span>
-              <span>Air Time</span>
-              <span>Channel #</span>
+              <span v-for="col in visibleColumns" :key="col">
+                {{ allColumns.find((c) => c.key === col).label }}
+              </span>
               <span>Actions</span>
             </li>
             <li v-if="showsByDay(day).length === 0" class="show-item empty">
               No shows yet — add one!
             </li>
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
-              <span class="show-name">{{ show.show_name }}</span>
-              <span class="show-channel">{{ show.channel_name }}</span>
-              <span class="show-day">{{ capitalize(show.available_on) }}</span>
-              <span class="show-air">{{ capitalize(show.air_day) || 'Not Specified' }}</span>
-              <span class="show-time">{{ show.air_time || 'Not Specified' }}</span>
-              <span class="show-number">{{ show.channel_number || 'Not Specified' }}</span>
+              <span v-for="col in visibleColumns" :key="col">
+                {{ formatValue(col, show[col]) }}
+              </span>
               <span class="show-actions">
                 <button @click="openEditShowModal(show)" class="icon-btn">✏️</button>
                 <button @click="deleteShow(show.id)" class="icon-btn">🗑️</button>
@@ -286,5 +322,36 @@ const filteredShows = computed(() => {
 .day-title.empty {
   color: var(--color-muted);
   font-style: italic;
+}
+
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-btn {
+  padding: 0.25rem 0.5rem;
+  border: 1px solid var(--color-muted);
+  border-radius: 4px;
+  background: white;
+  cursor: pointer;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: white;
+  border: 1px solid var(--color-muted);
+  border-radius: 4px;
+  padding: 0.5rem;
+  z-index: 10;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.25rem 0;
 }
 </style>
