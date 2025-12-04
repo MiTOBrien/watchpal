@@ -58,14 +58,9 @@ function capitalize(value) {
   return value.charAt(0).toUpperCase() + value.slice(1)
 }
 
-const visibleColumns = ref([
-  'show_name',
-  'channel_name',
-  'available_on',
-  'air_day',
-  'air_time',
-  'channel_number',
-])
+const lockedColumns = ['show_name', 'channel_name']
+
+const visibleColumns = ref(['available_on', 'air_day', 'air_time', 'channel_number'])
 
 const allColumns = [
   { key: 'show_name', label: 'Show' },
@@ -220,7 +215,12 @@ const filteredShows = computed(() => {
                 Choose Columns ▾
               </button>
               <div v-if="showColumnDropdown" class="dropdown-menu">
-                <label v-for="col in allColumns" :key="col.key" class="dropdown-item">
+                <!-- Only show non-locked columns here -->
+                <label
+                  v-for="col in allColumns.filter((c) => !lockedColumns.includes(c.key))"
+                  :key="col.key"
+                  class="dropdown-item"
+                >
                   <input type="checkbox" v-model="visibleColumns" :value="col.key" />
                   {{ col.label }}
                 </label>
@@ -240,6 +240,9 @@ const filteredShows = computed(() => {
           </h2>
           <ul class="show-list">
             <li v-if="showsByDay(day).length > 0" class="show-item header">
+              <span v-for="col in lockedColumns" :key="col">
+                {{ allColumns.find((c) => c.key === col).label }}
+              </span>
               <span v-for="col in visibleColumns" :key="col">
                 {{ allColumns.find((c) => c.key === col).label }}
               </span>
@@ -249,6 +252,9 @@ const filteredShows = computed(() => {
               No shows yet — add one!
             </li>
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
+              <span v-for="col in lockedColumns" :key="col">
+                {{ formatValue(col, show[col]) }}
+              </span>
               <span v-for="col in visibleColumns" :key="col">
                 {{ formatValue(col, show[col]) }}
               </span>
@@ -280,78 +286,4 @@ const filteredShows = computed(() => {
 </template>
 
 <style scoped>
-.add-show-btn {
-  margin-left: 0.5rem;
-  padding: 0.25rem 0.5rem;
-  font-size: 1rem;
-  border: none;
-  border-radius: 4px;
-  background: var(--color-primary);
-  color: white;
-  cursor: pointer;
-}
-
-.show-item.empty {
-  grid-template-columns: 1fr;
-  color: var(--color-muted);
-  font-style: italic;
-}
-
-.show-item {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr) auto;
-  gap: 0.5rem;
-  padding: 0.25rem 0;
-}
-
-.show-item span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.show-item.header {
-  font-weight: bold;
-  border-bottom: 2px solid var(--color-muted); /* underline effect */
-  padding-bottom: 0.25rem;
-}
-
-.show-list {
-  margin-left: 1rem;
-}
-
-.day-title.empty {
-  color: var(--color-muted);
-  font-style: italic;
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-btn {
-  padding: 0.25rem 0.5rem;
-  border: 1px solid var(--color-muted);
-  border-radius: 4px;
-  background: white;
-  cursor: pointer;
-}
-
-.dropdown-menu {
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: white;
-  border: 1px solid var(--color-muted);
-  border-radius: 4px;
-  padding: 0.5rem;
-  z-index: 10;
-}
-
-.dropdown-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0.25rem 0;
-}
 </style>
