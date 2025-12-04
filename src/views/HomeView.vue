@@ -1,11 +1,12 @@
 <script setup>
-import { computed, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useUserStore } from '@/stores/useUserStore'
 import { streamingServices } from '@/constants/services'
 import showModal from '@/components/showModal.vue'
 
 const API_BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
 const userStore = useUserStore()
+const isMobile = ref(window.innerWidth <= 609)
 const searchQuery = ref('')
 const selectedDayFilter = ref('all')
 const selectedServiceFilter = ref('all')
@@ -165,6 +166,17 @@ const filteredShows = computed(() => {
     return matchesSearch && matchesDay && matchesService
   })
 })
+
+function handleResize() {
+  isMobile.value = window.innerWidth <= 609
+}
+
+onMounted(() => {
+  window.addEventListener('resize', handleResize)
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize)
+})
 </script>
 
 <template>
@@ -253,10 +265,22 @@ const filteredShows = computed(() => {
             </li>
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
               <span v-for="col in lockedColumns" :key="col">
-                {{ formatValue(col, show[col]) }}
+                <template v-if="isMobile">
+                  {{ allColumns.find((c) => c.key === col).label }}:
+                  {{ formatValue(col, show[col]) }}
+                </template>
+                <template v-else>
+                  {{ formatValue(col, show[col]) }}
+                </template>
               </span>
               <span v-for="col in visibleColumns" :key="col">
-                {{ formatValue(col, show[col]) }}
+                <template v-if="isMobile">
+                  {{ allColumns.find((c) => c.key === col).label }}:
+                  {{ formatValue(col, show[col]) }}
+                </template>
+                <template v-else>
+                  {{ formatValue(col, show[col]) }}
+                </template>
               </span>
               <span class="show-actions">
                 <button @click="openEditShowModal(show)" class="icon-btn">✏️</button>
@@ -285,5 +309,4 @@ const filteredShows = computed(() => {
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>
