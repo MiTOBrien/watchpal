@@ -109,13 +109,14 @@ const login = async () => {
         </button>
       </form>
 
-      <p class="forgot-password-link">
-        <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
-      </p>
-      <p class="register-link">
-        Don't have an account?
-        <button type="button" class="link-button" @click="openRegister">Create one here</button>
-      </p>
+      <div class="auth-links">
+        <p class="forgot-password-link">
+          <RouterLink to="/forgot-password">Forgot your password?</RouterLink>
+        </p>
+        <p class="register-link">
+          <button class="link-button" @click="openRegister">Create Account</button>
+        </p>
+      </div>
     </div>
   </div>
 </template>
