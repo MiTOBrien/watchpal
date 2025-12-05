@@ -146,11 +146,11 @@ const register = async () => {
           </div>
         </div>
 
-        <div class="form-group">
-          <label class="modal-text">
+        <div class="tos-group">
+          <label class="tos-label">
             <input type="checkbox" v-model="acceptedTOS" />
             I acknowledge and agree to the
-            <router-link to="/tos" target="_blank">Terms of Service</router-link>.
+            <router-link to="/tos" target="_blank">Terms of Service</router-link>
           </label>
         </div>
 
@@ -159,12 +159,13 @@ const register = async () => {
         </button>
       </form>
 
-      <p class="login-link">
-        <button type="button" class="link-button" @click="openLogin">Back to login</button>
-      </p>
+      <div class="auth-links">
+        <p class="login-link">
+          <button type="button" class="link-button" @click="openLogin">Back to login</button>
+        </p>
+      </div>
     </div>
   </div>
 </template>
 
-<style scoped>
-</style>
+<style scoped></style>

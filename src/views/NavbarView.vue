@@ -78,23 +78,5 @@ const themeIcon = computed(() =>
 </template>
 
 <style scoped>
-.nav-button {
-  background: var(--color-primary);
-  border-radius: 999px;
-  box-sizing: border-box;
-  color: var(--color-text);
-  cursor: pointer;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 24px;
-  opacity: 1;
-  outline: 0 solid transparent;
-  padding: 8px 18px;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
-  width: fit-content;
-  word-break: break-word;
-  border: 0;
-}
+
 </style>
