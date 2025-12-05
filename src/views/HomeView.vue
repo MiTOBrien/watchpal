@@ -266,7 +266,7 @@ onUnmounted(() => {
             <li v-for="show in showsByDay(day)" :key="show.id" class="show-item">
               <span v-for="col in lockedColumns" :key="col">
                 <template v-if="isMobile">
-                  {{ allColumns.find((c) => c.key === col).label }}:
+                  <strong>{{ allColumns.find((c) => c.key === col).label }}:</strong>
                   {{ formatValue(col, show[col]) }}
                 </template>
                 <template v-else>
@@ -275,7 +275,7 @@ onUnmounted(() => {
               </span>
               <span v-for="col in visibleColumns" :key="col">
                 <template v-if="isMobile">
-                  {{ allColumns.find((c) => c.key === col).label }}:
+                  <strong>{{ allColumns.find((c) => c.key === col).label }}:</strong>
                   {{ formatValue(col, show[col]) }}
                 </template>
                 <template v-else>
